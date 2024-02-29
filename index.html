@@ -9,11 +9,10 @@
   <script src="/js/marked.min.js"></script>
   <script src="/js/axios.min.js"></script>
   <script>
-    document.getElementById('content').innerHTML =
-      marked.parse('# Marked in browser');
+    // document.getElementById('content').innerHTML = marked.parse('# Marked in browser');
     axios.get("/orn.txt")
     .then(function(data){
-      console.log(data)
+        document.getElementById('content').innerHTML = marked.parse(data.data);
     })
   </script>
 </body>
