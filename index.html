@@ -12,7 +12,7 @@
     // document.getElementById('content').innerHTML = marked.parse('# Marked in browser');
     axios.get("/orn.txt")
     .then(function(data){
-        document.getElementById('content').innerHTML = marked.parse(data.data);
+        document.getElementById('content').innerHTML = marked.parse("# IRM Test\n\n"+data.data);
     })
   </script>
 </body>
