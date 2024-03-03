@@ -23,19 +23,16 @@
     const check_all = () => {
       if ((storage.text === '') || (storage.translated === '')) {
         recall()
-      } else {
-
       }
     }
 
     axios.get('/irm_translated.json')
     .then(function(data){
-        console.log(data)
-        storage.translated = data
+        storage.translated = data.data
         check_all()
     })
 
-    axios.get("/orn.txt")
+    axios.get("/irm_orn.json")
     .then(function(data){
       storage.text = data.data;
       check_all()
