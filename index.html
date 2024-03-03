@@ -3,11 +3,12 @@
 <head>
   <meta charset="utf-8"/>
   <title>IRM</title>
+  <script src="/js/marked.min.js"></script>
+  <script src="/js/axios.min.js"></script>
 </head>
 <body>
   <div id="content"></div>
-  <script src="/js/marked.min.js"></script>
-  <script src="/js/axios.min.js"></script>
+  
   <script>
 
     function shuffleArray(array) {
@@ -25,10 +26,12 @@
     };
 
     const recall = () => {
+      console.log(storage)
       let out_text = ''
-      storage.text = shuffleArray(storage.text)
+      let shuffled_text = shuffleArray(storage.text)
+      console.log(shuffled_text)
       const pattern = /\d+/g
-      for (let row of storage.text) {
+      for (let row of shuffled_text) {
         match = row.match(pattern);
         match = match[0];
         eng_translated = storage.translated[match];
