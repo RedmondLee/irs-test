@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>IRM</title>
+  <script src="/js/marked.min.js"></script>
+  <script src="/js/axios.min.js"></script>
+</head>
+<body>
+  <div id="content"></div>
+  
+  <script>
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // 分别下载两个文件，等待全部下载完成后执行回调
+    const storage = {
+      text: '',
+      translated: ''
+    };
+
+    const recall = () => {
+      // console.log(storage)
+      let out_text = ''
+      // let shuffled_text = shuffleArray(storage.text)
+      let shuffled_text = storage.text
+      // console.log(shuffled_text)
+      const pattern = /\d+/g
+      for (let row of shuffled_text) {
+        match = row.match(pattern);
+        match = match[0];
+        eng_translated = storage.translated[match];
+        out_text += '\n\n'
+        out_text += row
+        out_text += '\n\n'
+        out_text += eng_translated
+        out_text += '\n\n'
+      }
+      console.log(out_text)
+      document.getElementById('content').innerHTML = marked.parse(out_text);
+    }
+
+    // 创建两个axios请求
+    const request1 = axios.get('/irm_translated.json');
+    const request2 = axios.get('/irm_orn.json');
+
+    Promise.all([request1, request2])
+    .then((responses) => {
+      // 在两个请求都完成后执行的回调函数
+      storage.translated = responses[0].data;
+      storage.text = responses[1].data;
+      recall()
+    })
+    .catch((error) => {
+      // 处理错误
+      console.error('Error:', error);
+    });
+
+        
+  </script>
+</body>
+</html>
