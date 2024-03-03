@@ -9,6 +9,15 @@
   <script src="/js/marked.min.js"></script>
   <script src="/js/axios.min.js"></script>
   <script>
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
     // 分别下载两个文件，等待全部下载完成后执行回调
     const storage = {
       text: '',
@@ -16,8 +25,20 @@
     };
 
     const recall = () => {
-      console.log(storage.text);
-      console.log(storage.translated);
+      let out_text = ''
+      storage.text = shuffleArray(storage.text)
+      const pattern = /\d+/g
+      for (let row of storage.text) {
+        match = row.match(pattern);
+        match = match[0];
+        eng_translated = storage.translated[match];
+        out_text += '\n\n'
+        out_text += row
+        out_text += '\n\n'
+        out_text += eng_translated
+        out_text += '\n\n'
+      }
+      document.getElementById('content').innerHTML = marked.parse(out_text);
     }
 
     const check_all = () => {
@@ -38,12 +59,6 @@
       check_all()
     })
 
-    // 两个任务都完成后执行回调
-    
-
-
-    // document.getElementById('content').innerHTML = marked.parse(data.data);
-    // })
         
   </script>
 </body>
