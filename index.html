@@ -30,7 +30,8 @@
 
     axios.get('/irm_translated.json')
     .then(function(data){
-        storage.translated = JSON.parse(data.data);
+        console.log(data)
+        storage.translated = data
         check_all()
     })
 
