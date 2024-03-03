@@ -10,22 +10,38 @@
   <script src="/js/axios.min.js"></script>
   <script>
     // 分别下载两个文件，等待全部下载完成后执行回调
-    storage = {}
+    const storage = {
+      text: '',
+      translated: ''
+    };
+
+    const recall = () => {
+      console.log(storage.text);
+      console.log(storage.translated);
+    }
+
+    const check_all = () => {
+      if ((storage.text === '') || (storage.translated === '')) {
+        recall()
+      } else {
+
+      }
+    }
 
     axios.get('/irm_translated.json')
     .then(function(data){
         storage.translated = JSON.parse(data.data);
+        check_all()
     })
 
     axios.get("/orn.txt")
     .then(function(data){
       storage.text = data.data;
+      check_all()
     })
 
     // 两个任务都完成后执行回调
-    axios.all.then(function(){
-      console.log(storage)
-    })
+    
 
 
     // document.getElementById('content').innerHTML = marked.parse(data.data);
