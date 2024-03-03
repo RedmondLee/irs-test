@@ -9,11 +9,28 @@
   <script src="/js/marked.min.js"></script>
   <script src="/js/axios.min.js"></script>
   <script>
-    // document.getElementById('content').innerHTML = marked.parse('# Marked in browser');
+    // 分别下载两个文件，等待全部下载完成后执行回调
+    storage = {}
+
+    axios.get('/irm_translated.json')
+    .then(function(data){
+        storage.translated = JSON.parse(data.data);
+    })
+
     axios.get("/orn.txt")
     .then(function(data){
-        document.getElementById('content').innerHTML = marked.parse("# IRM Test\n\n"+data.data);
+      storage.text = data.data;
     })
+
+    // 两个任务都完成后执行回调
+    axios.all.then(function(){
+      console.log(storage)
+    })
+
+
+    // document.getElementById('content').innerHTML = marked.parse(data.data);
+    // })
+        
   </script>
 </body>
 </html>
